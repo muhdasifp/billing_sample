@@ -11,6 +11,8 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tab = Provider.of<TableProvider>(context);
+    FocusNode itemNode = FocusNode();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Company Name'),
@@ -71,6 +73,8 @@ class HomePage extends StatelessWidget {
                 SizedBox(
                   height: 40,
                   child: TextField(
+                    focusNode: itemNode,
+                    onEditingComplete: () => FocusScope.of(context).nextFocus(),
                     controller: tab.item,
                     decoration: const InputDecoration(
                       hintText: 'Items',
@@ -80,6 +84,7 @@ class HomePage extends StatelessWidget {
                 SizedBox(
                   height: 40,
                   child: TextField(
+                    onEditingComplete: () => FocusScope.of(context).nextFocus(),
                     controller: tab.qty,
                     decoration: const InputDecoration(
                       hintText: 'Quantity',
@@ -91,6 +96,7 @@ class HomePage extends StatelessWidget {
                   child: TextField(
                     onSubmitted: (value) {
                       tab.addToTable();
+                      FocusScope.of(context).requestFocus(itemNode);
                     },
                     controller: tab.price,
                     decoration: const InputDecoration(
